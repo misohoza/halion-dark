@@ -1,0 +1,565 @@
+{
+	// Basic Library
+	"assert":{
+		"prefix": "assert()",
+		"body": "assert(${1:v [, message]})",
+		"description": "Issues an error when the value of its argument v is false (i.e., nil or false); otherwise, returns all its arguments. message is an error message; when absent, it defaults to \"assertion failed!\""
+	},
+	"collectgarbage":{
+		"prefix": "collectgarbage()",
+		"body": "collectgarbage(${1:[opt [, arg]]})",
+		"description": "This function is a generic interface to the garbage collector. It performs different functions according to its first argument, opt"
+	},
+	"dofile":{
+		"prefix": "dofile()",
+		"body": "dofile(${1:[filename]})",
+		"description": "Opens the named file and executes its contents as a Lua chunk. When called without arguments, dofile executes the contents of the standard input (stdin). Returns all values returned by the chunk. In case of errors, dofile propagates the error to its caller (that is, dofile does not run in protected mode). "
+	},
+	"error":{
+		"prefix": "error()",
+		"body": "error(${1:message [, level]})",
+		"description": "Terminates the last protected function called and returns message as the error message. Function error never returns. Usually, error adds some information about the error position at the beginning of the message, if the message is a string. The level argument specifies how to get the error position. With level 1 (the default), the error position is where the error function was called. Level 2 points the error to where the function that called error was called; and so on. Passing a level 0 avoids the addition of error position information to the message. "
+	},
+	"_G":{
+		"prefix": "_G",
+		"body": "_G",
+		"description": "A global variable (not a function) that holds the global environment (see §2.2). Lua itself does not use this variable; changing its value does not affect any environment, nor vice-versa. "
+	},
+	"getmetatable":{
+		"prefix": "getmetatable()",
+		"body": "getmetatable(${1:object})",
+		"description": "If object does not have a metatable, returns nil. Otherwise, if the object's metatable has a \"__metatable\" field, returns the associated value. Otherwise, returns the metatable of the given object. "
+	},
+	"ipairs":{
+		"prefix": "ipairs()",
+		"body": "ipairs(${1:t})",
+		"description": "If t has a metamethod __ipairs, calls it with t as argument and returns the first three results from the call. "
+	},
+	"load":{
+		"prefix": "load()",
+		"body": "load(${1:ld [, source [, mode [, env]]]})",
+		"description": "Loads a chunk. If ld is a string, the chunk is this string. If ld is a function, load calls it repeatedly to get the chunk pieces. Each call to ld must return a string that concatenates with previous results. A return of an empty string, nil, or no value signals the end of the chunk. If there are no syntactic errors, returns the compiled chunk as a function; otherwise, returns nil plus the error message."
+	},
+	"loadfile":{
+		"prefix": "loadfile()",
+		"body": "loadfile(${1:[filename [, mode [, env]]]})",
+		"description": "Similar to load, but gets the chunk from file filename or from the standard input, if no file name is given. "
+	},
+	"next":{
+		"prefix": "next()",
+		"body": "next(${1:table [, index]})",
+		"description": "Allows a program to traverse all fields of a table. Its first argument is a table and its second argument is an index in this table. next returns the next index of the table and its associated value. When called with nil as its second argument, next returns an initial index and its associated value. When called with the last index, or with nil in an empty table, next returns nil. If the second argument is absent, then it is interpreted as nil. In particular, you can use next(t) to check whether a table is empty. "
+	},
+	"pairs":{
+		"prefix": "pairs()",
+		"body": "pairs(${1:t})",
+		"description": "If t has a metamethod __pairs, calls it with t as argument and returns the first three results from the call. "
+	},
+	"pcall":{
+		"prefix": "pcall()",
+		"body": "pcall(${1:f [, arg1, ···]})",
+		"description": "Calls function f with the given arguments in protected mode. This means that any error inside f is not propagated; instead, pcall catches the error and returns a status code. Its first result is the status code (a boolean), which is true if the call succeeds without errors. In such case, pcall also returns all results from the call, after this first result. In case of any error, pcall returns false plus the error message. "
+	},
+	"print":{
+		"prefix": "print()",
+		"body": "print(${1:...})",
+		"description": "Receives any number of arguments and prints their values to stdout, using the tostring function to convert each argument to a string. print is not intended for formatted output, but only as a quick way to show a value, for instance for debugging."
+	},
+	"rawequal":{
+		"prefix": "rawequal()",
+		"body": "rawequal(${1:v1},${2:v2})",
+		"description": "Checks whether v1 is equal to v2, without invoking any metamethod. Returns a boolean. "
+	},
+	"rawget":{
+		"prefix": "rawget()",
+		"body": "rawget(${1:table},${2:index})",
+		"description": "Gets the real value of table[index], without invoking any metamethod. table must be a table; index may be any value. "
+	},
+	"rawlen":{
+		"prefix": "rawlen()",
+		"body": "rawlen(${1:v})",
+		"description": "Returns the length of the object v, which must be a table or a string, without invoking any metamethod. Returns an integer number. "
+	},
+	"rawset":{
+		"prefix": "rawset()",
+		"body": "rawset(${1:table},${2:index},${3:value})",
+		"description": "Sets the real value of table[index] to value, without invoking any metamethod. table must be a table, index any value different from nil and NaN, and value any Lua value. "
+	},
+	"select":{
+		"prefix": "select()",
+		"body": "select(${1:index},${2:...})",
+		"description": "If index is a number, returns all arguments after argument number index; a negative number indexes from the end (-1 is the last argument). Otherwise, index must be the string \"#\", and select returns the total number of extra arguments it received. "
+	},
+	"setmetatable":{
+		"prefix": "setmetatable()",
+		"body": "setmetatable(${1:table},${2:metatable})",
+		"description": "Sets the metatable for the given table. (You cannot change the metatable of other types from Lua, only from C.) If metatable is nil, removes the metatable of the given table. If the original metatable has a \"__metatable\" field, raises an error. "
+	},
+	"tonumber":{
+		"prefix": "tonumber()",
+		"body": "tonumber(${1:e [, base]})",
+		"description": "When called with no base, tonumber tries to convert its argument to a number. If the argument is already a number or a string convertible to a number (see §3.4.2), then tonumber returns this number; otherwise, it returns nil. When called with base, then e should be a string to be interpreted as an integer numeral in that base. The base may be any integer between 2 and 36, inclusive. In bases above 10, the letter 'A' (in either upper or lower case) represents 10, 'B' represents 11, and so forth, with 'Z' representing 35. If the string e is not a valid numeral in the given base, the function returns nil. "
+	},
+	"tostring":{
+		"prefix": "tostring()",
+		"body": "tostring(${1:v})",
+		"description": "Receives a value of any type and converts it to a string in a reasonable format. (For complete control of how numbers are converted, use string.format.) "
+	},
+	"type":{
+		"prefix": "type()",
+		"body": "type(${1:v})",
+		"description": "Returns the type of its only argument, coded as a string."
+	},
+	"_VERSION":{
+		"prefix": "_VERSION",
+		"body": "_VERSION",
+		"description": "A global variable (not a function) that holds a string containing the current interpreter version. The current contents of this variable is Lua 5.2 "
+	},
+	"xpcall":{
+		"prefix": "xpcall()",
+		"body": "xpcall(${1:f},${2:msgh [, arg1, ···]})",
+		"description": "This function is similar to pcall, except that it sets a new message handler msgh."
+	},
+
+	// Bitwise Operations
+	"bit32.arshift":{
+		"prefix": "bit32.arshift()",
+		"body": "bit32.arshift(${1:x},${2:disp})",
+		"description": "Returns the number x shifted disp bits to the right. The number disp may be any representable integer. Negative displacements shift to the left. "
+	},
+	"bit32.band":{
+		"prefix": "bit32.band()",
+		"body": "bit32.band(${1:...})",
+		"description": "Returns the bitwise and of its operands. "
+	},
+	"bit32.bnot":{
+		"prefix": "bit32.bnot()",
+		"body": "bit32.bnot(${1:x})",
+		"description": "Returns the bitwise negation of x."
+	},
+	"bit32.bor":{
+		"prefix": "bit32.bor()",
+		"body": "bit32.bor(${1:...})",
+		"description": "Returns the bitwise or of its operands. "
+	},
+	"bit32.btest":{
+		"prefix": "bit32.btest()",
+		"body": "bit32.btest(${1:...})",
+		"description": "Returns a boolean signaling whether the bitwise and of its operands is different from zero. "
+	},
+	"bit32.bxor":{
+		"prefix": "bit32.bxor()",
+		"body": "bit32.bxor(${1:...})",
+		"description": "Returns the bitwise exclusive or of its operands."
+	},
+	"bit32.extract":{
+		"prefix": "bit32.extract()",
+		"body": "bit32.extract(${1:n},${2:field [, width]})",
+		"description": "Returns the unsigned number formed by the bits field to field + width - 1 from n. Bits are numbered from 0 (least significant) to 31 (most significant). All accessed bits must be in the range [0, 31]. "
+	},
+	"bit32.replace":{
+		"prefix": "bit32.replace()",
+		"body": "bit32.replace(${1:n},${2:v},${3:field [, width]})",
+		"description": "Returns a copy of n with the bits field to field + width - 1 replaced by the value v. See bit32.extract for details about field and width."
+	},
+	"bit32.lrotate":{
+		"prefix": "bit32.lrotate()",
+		"body": "bit32.lrotate(${1:x},${2:disp})",
+		"description": "Returns the number x rotated disp bits to the left. The number disp may be any representable integer. "
+	},
+	"bit32.lshift":{
+		"prefix": "bit32.lshift()",
+		"body": "bit32.lshift(${1:x},${2:disp})",
+		"description": "Returns the number x shifted disp bits to the left. The number disp may be any representable integer. Negative displacements shift to the right. In any direction, vacant bits are filled with zeros. In particular, displacements with absolute values higher than 31 result in zero (all bits are shifted out). "
+	},
+	"bit32.rrotate":{
+		"prefix": "bit32.rrotate()",
+		"body": "bit32.rrotate(${1:x},${2:disp})",
+		"description": "Returns the number x rotated disp bits to the right. The number disp may be any representable integer. "
+	},
+	"bit32.rshift":{
+		"prefix": "bit32.rshift()",
+		"body": "bit32.rshift(${1:x},${2:disp})",
+		"description": "Returns the number x shifted disp bits to the right. The number disp may be any representable integer. Negative displacements shift to the left. In any direction, vacant bits are filled with zeros. In particular, displacements with absolute values higher than 31 result in zero (all bits are shifted out). "
+	},
+
+	// Debug Library
+	"debug.debug":{
+		"prefix": "debug.debug()",
+		"body": "debug.debug()",
+		"description": "Enters an interactive mode with the user, running each string that the user enters. Using simple commands and other debug facilities, the user can inspect global and local variables, change their values, evaluate expressions, and so on. A line containing only the word cont finishes this function, so that the caller continues its execution. "
+	},
+	"debug.gethook":{
+		"prefix": "debug.gethook()",
+		"body": "debug.gethook(${1:[thread]})",
+		"description": "Returns the current hook settings of the thread, as three values: the current hook function, the current hook mask, and the current hook count (as set by the debug.sethook function). "
+	},
+	"debug.getinfo":{
+		"prefix": "debug.getinfo()",
+		"body": "debug.getinfo(${1:[thread,]f [, what]})",
+		"description": "Returns a table with information about a function. You can give the function directly or you can give a number as the value of f, which means the function running at level f of the call stack of the given thread: level 0 is the current function (getinfo itself); level 1 is the function that called getinfo (except for tail calls, which do not count on the stack); and so on. If f is a number larger than the number of active functions, then getinfo returns nil. "
+	},
+	"debug.getlocal":{
+		"prefix": "debug.getlocal()",
+		"body": "debug.getlocal(${1:[thread,]f},${2:local})",
+		"description": "This function returns the name and the value of the local variable with index local of the function at level f of the stack. This function accesses not only explicit local variables, but also parameters, temporaries, etc. "
+	},
+	"debug.getmetatable":{
+		"prefix": "debug.getmetatable()",
+		"body": "debug.getmetatable(${1:value})",
+		"description": "Returns the metatable of the given value or nil if it does not have a metatable. "
+	},
+	"debug.getregistry":{
+		"prefix": "debug.getregistry()",
+		"body": "debug.getregistry()",
+		"description": "Returns the registry table (see §4.5). "
+	},
+	"debug.getupvalue":{
+		"prefix": "debug.getupvalue()",
+		"body": "debug.getupvalue(${1:f},${2:up})",
+		"description": "This function returns the name and the value of the upvalue with index up of the function f. The function returns nil if there is no upvalue with the given index. "
+	},
+	"debug.getuservalue":{
+		"prefix": "debug.getuservalue()",
+		"body": "debug.getuservalue(${1:u})",
+		"description": "Returns the Lua value associated to u. If u is not a userdata, returns nil."
+	},
+	"debug.sethook":{
+		"prefix": "debug.sethook()",
+		"body": "debug.sethook(${1:[thread,] hook},${2:mask [, count]})",
+		"description": "Sets the given function as a hook. The string mask and the number count describe when the hook will be called. The string mask may have any combination of the following characters, with the given meaning:\n 'c': the hook is called every time Lua calls a function;\n 'r': the hook is called every time Lua returns from a function;\n 'l': the hook is called every time Lua enters a new line of code."
+	},
+	"debug.setlocal":{
+		"prefix": "debug.setlocal()",
+		"body": "debug.setlocal(${1:[thread,] level},${2:local},${3:value})",
+		"description": "This function assigns the value value to the local variable with index local of the function at level level of the stack. The function returns nil if there is no local variable with the given index, and raises an error when called with a level out of range. (You can call getinfo to check whether the level is valid.) Otherwise, it returns the name of the local variable. "
+	},
+	"debug.setmetatable":{
+		"prefix": "debug.setmetatable()",
+		"body": "debug.setmetatable(${1:value},${2:table})",
+		"description": "Sets the metatable for the given value to the given table (which can be nil). Returns value."
+	},
+	"debug.setupvalue":{
+		"prefix": "debug.setupvalue()",
+		"body": "debug.setupvalue(${1:f},${2:up},${3:value})",
+		"description": "This function assigns the value value to the upvalue with index up of the function f. The function returns nil if there is no upvalue with the given index. Otherwise, it returns the name of the upvalue. "
+	},
+	"debug.setuservalue":{
+		"prefix": "debug.setuservalue()",
+		"body": "debug.setuservalue(${1:udata},${2:value})",
+		"description": "Sets the given value as the Lua value associated to the given udata. value must be a table or nil; udata must be a full userdata. "
+	},
+	"debug.traceback":{
+		"prefix": "debug.traceback()",
+		"body": "debug.traceback(${1:[thread,] [message [, level]]})",
+		"description": "If message is present but is neither a string nor nil, this function returns message without further processing. Otherwise, it returns a string with a traceback of the call stack. An optional message string is appended at the beginning of the traceback. An optional level number tells at which level to start the traceback (default is 1, the function calling traceback). "
+	},
+	"debug.upvalueid":{
+		"prefix": "debug.upvalueid()",
+		"body": "debug.upvalueid(${1:f},${2:n})",
+		"description": "Returns an unique identifier (as a light userdata) for the upvalue numbered n from the given function. "
+	},
+	"debug.upvaluejoin":{
+		"prefix": "debug.upvaluejoin()",
+		"body": "debug.upvaluejoin(${1:f1},${2:n1},${3:f2},${4:n2})",
+		"description": "Make the n1-th upvalue of the Lua closure f1 refer to the n2-th upvalue of the Lua closure f2."
+	},
+
+	// Math Functions
+	"math.abs":{
+		"prefix": "math.abs()",
+		"body": "math.abs(${1:x})",
+		"description": "Returns the absolute value of x. "
+	},
+	"math.acos":{
+		"prefix": "math.acos()",
+		"body": "math.acos(${1:x})",
+		"description": "Returns the arc cosine of x (in radians). "
+	},
+	"math.asin":{
+		"prefix": "math.asin()",
+		"body": "math.asin(${1:x})",
+		"description": "Returns the arc sine of x (in radians). "
+	},
+	"math.atan":{
+		"prefix": "math.atan()",
+		"body": "math.atan(${1:x})",
+		"description": "Returns the arc tangent of x (in radians). "
+	},
+	"math.atan2":{
+		"prefix": "math.atan2()",
+		"body": "math.atan2(${1:y},${2:x})",
+		"description": "Returns the arc tangent of y/x (in radians), but uses the signs of both parameters to find the quadrant of the result. (It also handles correctly the case of x being zero.)"
+	},
+	"math.ceil":{
+		"prefix": "math.ceil()",
+		"body": "math.ceil(${1:x})",
+		"description": "Returns the smallest integer larger than or equal to x. "
+	},
+	"math.cos":{
+		"prefix": "math.cos()",
+		"body": "math.cos(${1:x})",
+		"description": "Returns the cosine of x (assumed to be in radians). "
+	},
+	"math.cosh":{
+		"prefix": "math.cosh()",
+		"body": "math.cosh(${1:x})",
+		"description": "Returns the hyperbolic cosine of x. "
+	},
+	"math.deg":{
+		"prefix": "math.deg()",
+		"body": "math.deg(${1:x})",
+		"description": "Returns the angle x (given in radians) in degrees."
+	},
+	"math.exp":{
+		"prefix": "math.exp()",
+		"body": "math.exp(${1:x})",
+		"description": "Returns the value ex."
+	},
+	"math.floor":{
+		"prefix": "math.floor()",
+		"body": "math.floor(${1:x})",
+		"description": "Returns the largest integer smaller than or equal to x."
+	},
+	"math.fmod":{
+		"prefix": "math.fmod()",
+		"body": "math.fmod(${1:x},${2:y})",
+		"description": "Returns the remainder of the division of x by y that rounds the quotient towards zero. "
+	},
+	"math.frexp":{
+		"prefix": "math.frexp()",
+		"body": "math.frexp(${1:x})",
+		"description": "Returns m and e such that x = m2e, e is an integer and the absolute value of m is in the range [0.5, 1) (or zero when x is zero). "
+	},
+	"math.huge":{
+		"prefix": "math.huge",
+		"body": "math.huge",
+		"description": "The value HUGE_VAL, a value larger than or equal to any other numerical value. "
+	},
+	"math.ldexp":{
+		"prefix": "math.ldexp()",
+		"body": "math.ldexp(${1:m},${2:e})",
+		"description": "Returns m2e (e should be an integer). "
+	},
+	"math.log":{
+		"prefix": "math.log()",
+		"body": "math.log(${1:x[, base]})",
+		"description": "Returns the logarithm of x in the given base. The default for base is e (so that the function returns the natural logarithm of x). "
+	},
+	"math.max":{
+		"prefix": "math.max()",
+		"body": "math.max(${1:x,...})",
+		"description": "Returns the maximum value among its arguments. "
+	},
+	"math.min":{
+		"prefix": "math.min()",
+		"body": "math.min(${1:x,...})",
+		"description": "Returns the minimum value among its arguments. "
+	},
+	"math.modf":{
+		"prefix": "math.modf()",
+		"body": "math.modf(${1:x})",
+		"description": "Returns two numbers, the integral part of x and the fractional part of x. "
+	},
+	"math.pi":{
+		"prefix": "math.pi",
+		"body": "math.pi",
+		"description": "The value of π. "
+	},
+	"math.pow":{
+		"prefix": "math.pow()",
+		"body": "math.pow(${1:x},${2:y})",
+		"description": "Returns xy. (You can also use the expression x^y to compute this value.) "
+	},
+	"math.rad":{
+		"prefix": "math.rad()",
+		"body": "math.rad(${1:x})",
+		"description": "Returns the angle x (given in degrees) in radians."
+	},
+	"math.random":{
+		"prefix": "math.random()",
+		"body": "math.random(${1:[m [,n]]})",
+		"description": "This function is an interface to the simple pseudo-random generator function rand provided by Standard C. (No guarantees can be given for its statistical properties.) When called without arguments, returns a uniform pseudo-random real number in the range [0,1). When called with an integer number m, math.random returns a uniform pseudo-random integer in the range [1, m]. When called with two integer numbers m and n, math.random returns a uniform pseudo-random integer in the range [m, n]."
+	},
+	"math.randomseed":{
+		"prefix": "math.randomseed()",
+		"body": "math.randomseed(${1:x})",
+		"description": "Sets x as the \"seed\" for the pseudo-random generator: equal seeds produce equal sequences of numbers."
+	},
+	"math.sin":{
+		"prefix": "math.sin()",
+		"body": "math.sin(${1:x})",
+		"description": "Returns the sine of x (assumed to be in radians). "
+	},
+	"math.sinh":{
+		"prefix": "math.sinh()",
+		"body": "math.sinh(${1:x})",
+		"description": "Returns the hyperbolic sine of x. "
+	},
+	"math.sqrt":{
+		"prefix": "math.sqrt()",
+		"body": "math.sqrt(${1:x})",
+		"description": "Returns the square root of x. (You can also use the expression x^0.5 to compute this value.)"
+	},
+	"math.tan":{
+		"prefix": "math.tan()",
+		"body": "math.tan(${1:x})",
+		"description": "Returns the tangent of x (assumed to be in radians)."
+	},
+	"math.tanh":{
+		"prefix": "math.tanh()",
+		"body": "math.tanh(${1:x})",
+		"description": "Returns the hyperbolic tangent of x. "
+	},
+
+	// Package Library
+	"require":{
+		"prefix": "require()",
+		"body": "require(${1:modname})",
+		"description": "Loads the given module. The function starts by looking into the package.loaded table to determine whether modname is already loaded. If it is, then require returns the value stored at package.loaded[modname]. Otherwise, it tries to find a loader for the module. "
+	},
+	"package.config":{
+		"prefix": "package.config",
+		"body": "package.config",
+		"description": "A string describing some compile-time configurations for packages. "
+	},
+	"package.cpath":{
+		"prefix": "package.cpath",
+		"body": "package.cpath",
+		"description": "The path used by require to search for a C loader. "
+	},
+	"package.loaded":{
+		"prefix": "package.loaded",
+		"body": "package.loaded",
+		"description": "A table used by require to control which modules are already loaded. When you require a module modname and package.loaded[modname] is not false, require simply returns the value stored there. "
+	},
+	"package.loadlib":{
+		"prefix": "package.loadlib()",
+		"body": "package.loadlib(${1:libname},${2:funcname})",
+		"description": "Dynamically links the host program with the C library libname. "
+	},
+	"package.path":{
+		"prefix": "package.path",
+		"body": "package.path",
+		"description": "The path used by require to search for a Lua loader."
+	},
+	"package.preload":{
+		"prefix": "package.preload",
+		"body": "package.preload",
+		"description": "A table to store loaders for specific modules"
+	},
+	"package.searchers":{
+		"prefix": "package.searchers",
+		"body": "package.searchers",
+		"description": "A table used by require to control how to load modules."
+	},
+	"package.searchpath":{
+		"prefix": "package.searchpath()",
+		"body": "package.searchpath(${1:name},${2:path [, sep [, rep]]})",
+		"description": "Searches for the given name in the given path. "
+	},
+
+	// String Manipulation
+	"string.byte":{
+		"prefix": "string.byte()",
+		"body": "string.byte(${1:s [, i [, j]]})",
+		"description": "Returns the internal numerical codes of the characters s[i], s[i+1], ..., s[j]. The default value for i is 1; the default value for j is i. These indices are corrected following the same rules of function string.sub."
+	},
+	"string.char":{
+		"prefix": "string.char()",
+		"body": "string.char(${1:...})",
+		"description": "Receives zero or more integers. Returns a string with length equal to the number of arguments, in which each character has the internal numerical code equal to its corresponding argument. "
+	},
+	"string.dump":{
+		"prefix": "string.dump()",
+		"body": "string.dump(${1:func})",
+		"description": "Returns a string containing a binary representation of the given function, so that a later load on this string returns a copy of the function (but with new upvalues). "
+	},
+	"string.find":{
+		"prefix": "string.find()",
+		"body": "string.find(${1:s},${2:pattern [, init [, plain]]})",
+		"description": "Looks for the first match of pattern in the string s. If it finds a match, then find returns the indices of s where this occurrence starts and ends; otherwise, it returns nil. A third, optional numerical argument init specifies where to start the search; its default value is 1 and can be negative. A value of true as a fourth, optional argument plain turns off the pattern matching facilities, so the function does a plain \"find substring\" operation, with no characters in pattern being considered magic. Note that if plain is given, then init must be given as well. "
+	},
+	"string.format":{
+		"prefix": "string.format()",
+		"body": "string.format(${1:formatstring},${2:...})",
+		"description": "Returns a formatted version of its variable number of arguments following the description given in its first argument (which must be a string). The format string follows the same rules as the ISO C function sprintf. The only differences are that the options/modifiers *, h, L, l, n, and p are not supported and that there is an extra option, q. The q option formats a string between double quotes, using escape sequences when necessary to ensure that it can safely be read back by the Lua interpreter  Options A and a (when available), E, e, f, G, and g all expect a number as argument. Options c, d, i, o, u, X, and x also expect a number, but the range of that number may be limited by the underlying C implementation. For options o, u, X, and x, the number cannot be negative. Option q expects a string; option s expects a string without embedded zeros. If the argument to option s is not a string, it is converted to one following the same rules of tostring. "
+	},
+	"string.gmatch":{
+		"prefix": "string.gmatch()",
+		"body": "string.gmatch(${1:s},${2:pattern})",
+		"description": "Returns an iterator function that, each time it is called, returns the next captures from pattern over the string s. If pattern specifies no captures, then the whole match is produced in each call. "
+	},
+	"string.gsub":{
+		"prefix": "string.gsub()",
+		"body": "string.gsub(${1:s},${2:pattern},${3:repl [, n]})",
+		"description": "Returns a copy of s in which all (or the first n, if given) occurrences of the pattern have been replaced by a replacement string specified by repl, which can be a string, a table, or a function. gsub also returns, as its second value, the total number of matches that occurred. The name gsub comes from Global SUBstitution.  If repl is a string, then its value is used for replacement. The character % works as an escape character: any sequence in repl of the form %d, with d between 1 and 9, stands for the value of the d-th captured substring. The sequence %0 stands for the whole match. The sequence %% stands for a single %. If repl is a table, then the table is queried for every match, using the first capture as the key. If repl is a function, then this function is called every time a match occurs, with all captured substrings passed as arguments, in order. In any case, if the pattern specifies no captures, then it behaves as if the whole pattern was inside a capture. "
+	},
+	"string.len":{
+		"prefix": "string.len()",
+		"body": "string.len(${1:s})",
+		"description": "Receives a string and returns its length. The empty string has length 0. Embedded zeros are counted."
+	},
+	"string.lower":{
+		"prefix": "string.lower()",
+		"body": "string.lower(${1:s})",
+		"description": "Receives a string and returns a copy of this string with all uppercase letters changed to lowercase. All other characters are left unchanged. The definition of what an uppercase letter is depends on the current locale."
+	},
+	"string.match":{
+		"prefix": "string.match()",
+		"body": "string.match(${1:s},${2:pattern [, init]})",
+		"description": "Looks for the first match of pattern in the string s. If it finds one, then match returns the captures from the pattern; otherwise it returns nil. If pattern specifies no captures, then the whole match is returned. A third, optional numerical argument init specifies where to start the search; its default value is 1 and can be negative. "
+	},
+	"string.rep":{
+		"prefix": "string.rep()",
+		"body": "string.rep(${1:s},${2:n [, sep]})",
+		"description": "Returns a string that is the concatenation of n copies of the string s separated by the string sep. The default value for sep is the empty string (that is, no separator). "
+	},
+	"string.reverse":{
+		"prefix": "string.reverse()",
+		"body": "string.reverse(${1:s})",
+		"description": "Returns a string that is the string s reversed."
+	},
+	"string.sub":{
+		"prefix": "string.sub()",
+		"body": "string.sub(${1:s},${2:i [, j]})",
+		"description": "Returns the substring of s that starts at i and continues until j; i and j can be negative. If j is absent, then it is assumed to be equal to -1 (which is the same as the string length). In particular, the call string.sub(s,1,j) returns a prefix of s with length j, and string.sub(s, -i) returns a suffix of s with length i. f, after the translation of negative indices, i is less than 1, it is corrected to 1. If j is greater than the string length, it is corrected to that length. If, after these corrections, i is greater than j, the function returns the empty string. "
+	},
+	"string.upper":{
+		"prefix": "string.upper()",
+		"body": "string.upper(${1:s})",
+		"description": "Receives a string and returns a copy of this string with all lowercase letters changed to uppercase. All other characters are left unchanged. The definition of what a lowercase letter is depends on the current locale. "
+	},
+
+	// Table Manipulation
+	"table.concat":{
+		"prefix": "table.concat()",
+		"body": "table.concat(${1:list [, sep [, i [, j]]]})",
+		"description": "Given a list where all elements are strings or numbers, returns the string list[i]..sep..list[i+1] ··· sep..list[j]. The default value for sep is the empty string, the default for i is 1, and the default for j is #list. If i is greater than j, returns the empty string."
+	},
+	"table.insert":{
+		"prefix": "table.insert()",
+		"body": "table.insert(${1:list},${2:[pos,] value})",
+		"description": "Inserts element value at position pos in list, shifting up the elements list[pos], list[pos+1], ···, list[#list]. The default value for pos is #list+1, so that a call table.insert(t,x) inserts x at the end of list t. "
+	},
+	"table.pack":{
+		"prefix": "table.pack()",
+		"body": "table.pack(${1:...})",
+		"description": "Returns a new table with all parameters stored into keys 1, 2, etc. and with a field \"n\" with the total number of parameters. Note that the resulting table may not be a sequence. "
+	},
+	"table.remove":{
+		"prefix": "table.remove()",
+		"body": "table.remove(${1:list [, pos]})",
+		"description": "Removes from list the element at position pos, returning the value of the removed element. When pos is an integer between 1 and #list, it shifts down the elements list[pos+1], list[pos+2], ···, list[#list] and erases element list[#list]; The index pos can also be 0 when #list is 0, or #list + 1; in those cases, the function erases the element list[pos].  The default value for pos is #list, so that a call table.remove(t) removes the last element of list t. "
+	},
+	"table.sort":{
+		"prefix": "table.sort()",
+		"body": "table.sort(${1:list [, comp]})",
+		"description": "Sorts list elements in a given order, in-place, from list[1] to list[#list]. If comp is given, then it must be a function that receives two list elements and returns true when the first element must come before the second in the final order (so that not comp(list[i+1],list[i]) will be true after the sort). If comp is not given, then the standard Lua operator < is used instead. The sort algorithm is not stable; that is, elements considered equal by the given order may have their relative positions changed by the sort."
+	},
+	"table.unpack":{
+		"prefix": "table.unpack()",
+		"body": "table.unpack(${1:list [, i [, j]]})",
+		"description": "Returns the elements from the given table. This function is equivalent to: return list[i], list[i+1], ···, list[j]   By default, i is 1 and j is #list."
+	}
+}

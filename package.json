@@ -1,0 +1,39 @@
+{
+    "name": "halion-dark",
+    "displayName": "Halion Dark",
+    "description": "Theme and syntax highlighting",
+    "version": "0.0.1",
+    "publisher": "michalhoza",
+    "engines": {
+        "vscode": "^1.18.0"
+    },
+    "categories": [
+        "Extension Packs"
+    ],
+    "icon": "images/halion_dark.png",
+    "contributes": {
+        "languages": [{
+            "id": "lua",
+            "aliases": ["Lua Halion", "lua"],
+            "extensions": [".lua"],
+            "configuration": "./language-configuration.json"
+        }],
+        "grammars": [{
+            "language": "lua",
+            "scopeName": "source.lua",
+            "path": "./syntaxes/lua.tmLanguage.json"
+        }],
+        "snippets": [
+			{
+				"language": "lua",
+				"path": "./snippets/snippets.json"
+			}],
+        "themes": [
+            {
+                "label": "Halion Dark",
+                "uiTheme": "vs-dark",
+                "path": "./themes/My Theme Dark-color-theme.json"
+            }
+        ]
+    }
+}
