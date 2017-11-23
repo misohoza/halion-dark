@@ -11,6 +11,10 @@
         "Extension Packs"
     ],
     "icon": "images/halion_dark.png",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/misohoza/halion-dark.git"
+    },
     "contributes": {
         "languages": [{
             "id": "lua",
